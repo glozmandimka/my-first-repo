@@ -1,0 +1,16 @@
+class CheckoutStepOnePage {
+  constructor(page) {
+    this.page = page;
+    this.firstNameInput = page.locator('[data-test="firstName"]');
+    this.lastNameInput = page.locator('[data-test="lastName"]');
+    this.postalCodeInput = page.locator('[data-test="postalCode"]');
+    this.continueButton = page.locator('[data-test="continue"]');
+  }
+
+  async fillUserInfo(firstName, lastName, postalCode) {
+    this.firstNameInput.fill(firstName);
+    this.lastNameInput.fill(lastName);
+    this.postalCodeInput.fill(postalCode);
+    this.continueButton.click();
+  }
+}

@@ -8,7 +8,7 @@ class CartPage {
     );
   }
   async goToCheckout() {
-    this.checkoutButton.click();
+    await this.checkoutButton.click();
   }
 
   async continueShopping() {

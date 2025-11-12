@@ -8,9 +8,9 @@ class CheckoutStepOnePage {
   }
 
   async fillUserInfo(firstName, lastName, postalCode) {
-    this.firstNameInput.fill(firstName);
-    this.lastNameInput.fill(lastName);
-    this.postalCodeInput.fill(postalCode);
-    this.continueButton.click();
+    await this.firstNameInput.fill(firstName);
+    await this.lastNameInput.fill(lastName);
+    await this.postalCodeInput.fill(postalCode);
+    await this.continueButton.click();
   }
 }

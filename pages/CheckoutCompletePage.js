@@ -1,4 +1,4 @@
-class CheckoutCompletePage {
+export class CheckoutCompletePage {
   constructor(page) {
     this.page = page;
     this.completionMessage = page.locator('[data-test="complete-header"]');

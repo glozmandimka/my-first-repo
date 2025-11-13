@@ -1,10 +1,19 @@
-class InventoryPage {
+export class InventoryPage {
   constructor(page) {
     this.page = page;
     this.pageTitle = page.locator("[data-test='title']");
     this.cartIcon = page.locator("[data-test='shopping-cart-link']");
     this.productItems = page.locator("[data-test='inventory-item']");
     this.addToCartButtons = page.locator(".btn_primary");
+    this.sortDropdown = page.locator("select.product_sort_container");
+  }
+  async sortByPriceHighToLow() {
+    await this.sortDropdown.selectOption("hilo");
+  }
+
+  async getFirstItemName() {
+    const firstItem = this.productItems.first();
+    return await firstItem.locator(".inventory_item_name").textContent();
   }
 
   async addItemToCart(itemName) {

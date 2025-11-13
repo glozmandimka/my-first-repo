@@ -1,4 +1,4 @@
-class CheckoutStepTwoPage {
+export class CheckoutStepTwoPage {
   constructor(page) {
     this.page = page;
     this.itemNames = page.locator('[data-test="inventory-item-name"]');

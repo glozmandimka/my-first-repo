@@ -1,4 +1,4 @@
-class CheckoutStepOnePage {
+export class CheckoutStepOnePage {
   constructor(page) {
     this.page = page;
     this.firstNameInput = page.locator('[data-test="firstName"]');

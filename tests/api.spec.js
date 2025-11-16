@@ -3,6 +3,7 @@ import { test, expect } from "@playwright/test";
 test.describe.serial("API-тесты для Restful-booker", () => {
   const BASE_URL = "https://restful-booker.herokuapp.com";
   let bookingId;
+  let authToken;
   const BOOKING_DATA = {
     firstname: "Jim",
     lastname: "Brown",
@@ -25,6 +26,7 @@ test.describe.serial("API-тесты для Restful-booker", () => {
     },
     additionalneeds: "Breakfast",
   };
+
   test("Создание бронирования", async ({ request }) => {
     const response = await request.post(`${BASE_URL}/booking`, {
       data: BOOKING_DATA,
@@ -35,6 +37,7 @@ test.describe.serial("API-тесты для Restful-booker", () => {
     bookingId = responseBody.bookingid;
     expect(responseBody.booking).toEqual(BOOKING_DATA);
   });
+
   test("Получение информации о бронировании", async ({ request }) => {
     const response = await request.get(`${BASE_URL}/booking/${bookingId}`);
     expect(response.status()).toBe(200);
@@ -48,7 +51,8 @@ test.describe.serial("API-тесты для Restful-booker", () => {
     });
     expect(authResponse.status()).toBe(200);
     const authResponseBody = await authResponse.json();
-    const authToken = authResponseBody.token;
+    expect(authResponseBody).toHaveProperty("token");
+    authToken = authResponseBody.token;
     const response = await request.put(`${BASE_URL}/booking/${bookingId}`, {
       headers: {
         Cookie: `token=${authToken}`,
@@ -59,5 +63,15 @@ test.describe.serial("API-тесты для Restful-booker", () => {
     const responseBody = await response.json();
     expect(responseBody).toEqual(UPDATED_BOOKING_DATA);
   });
-  test("Удаление бронирования", async ({ request }) => {});
+
+  test("Удаление бронирования", async ({ request }) => {
+    const response = await request.delete(`${BASE_URL}/booking/${bookingId}`, {
+      headers: {
+        Cookie: `token=${authToken}`,
+      },
+    });
+    expect(response.status()).toBe(201);
+    const getResponse = await request.get(`${BASE_URL}/booking/${bookingId}`);
+    expect(getResponse.status()).toBe(404);
+  });
 });

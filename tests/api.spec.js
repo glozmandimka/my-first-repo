@@ -1,30 +1,35 @@
 import { test, expect } from "@playwright/test";
 
-test.describe("API-тесты для Restful-booker", () => {
+test.describe.serial("API-тесты для Restful-booker", () => {
   const baseURL = "https://restful-booker.herokuapp.com";
-  // TODO: Надо добавить USER, DATES чтобы менять данные сразу во всех тестах
+  let bookingId;
+  const BOOKING_DATA = {
+    firstname: "Jim",
+    lastname: "Brown",
+    totalprice: 111,
+    depositpaid: true,
+    bookingdates: {
+      checkin: "2018-01-01",
+      checkout: "2019-01-01",
+    },
+    additionalneeds: "Breakfast",
+  };
   test("Создание бронирования", async ({ request }) => {
-    const postData = {
-      firstname: "Jim",
-      lastname: "Brown",
-      totalprice: 111,
-      depositpaid: true,
-      bookingdates: {
-        checkin: "2018-01-01",
-        checkout: "2019-01-01",
-      },
-      additionalneeds: "Breakfast",
-    };
     const response = await request.post(`${baseURL}/booking`, {
-      data: postData,
+      data: BOOKING_DATA,
     });
     expect(response.status()).toBe(200);
     const responseBody = await response.json();
     expect(responseBody).toHaveProperty("bookingid");
-    const bookingid = responseBody["bookingid"];
-    expect(responseBody["booking"]).toEqual(postData);
+    bookingId = responseBody.bookingid;
+    expect(responseBody.booking).toEqual(BOOKING_DATA);
   });
-  test("Получение информации о бронировании", async ({ request }) => {});
+  test("Получение информации о бронировании", async ({ request }) => {
+    const response = await request.get(`${baseURL}/booking/${bookingId}`);
+    expect(response.status()).toBe(200);
+    const responseBody = await response.json();
+    expect(responseBody).toEqual(BOOKING_DATA);
+  });
   test("Обновление бронирования", async ({ request }) => {});
   test("Удаление бронирования", async ({ request }) => {});
 });

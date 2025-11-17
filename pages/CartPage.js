@@ -16,6 +16,6 @@ export class CartPage {
   }
 
   async getCartItemsList() {
-    return await this.cartItems.allTextContents();
+    return this.cartItems.allTextContents();
   }
 }

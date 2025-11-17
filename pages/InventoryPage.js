@@ -13,7 +13,7 @@ export class InventoryPage {
 
   async getFirstItemName() {
     const firstItem = this.productItems.first();
-    return await firstItem.locator(".inventory_item_name").textContent();
+    return firstItem.locator(".inventory_item_name").textContent();
   }
 
   async addItemToCart(itemName) {
@@ -28,6 +28,6 @@ export class InventoryPage {
   }
 
   async getPageTitle() {
-    return await this.pageTitle.textContent();
+    return this.pageTitle.textContent();
   }
 }

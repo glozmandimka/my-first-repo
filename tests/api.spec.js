@@ -27,7 +27,7 @@ test.describe.serial("API-тесты для Restful-booker", () => {
     additionalneeds: "Breakfast",
   };
 
-  test("Создание бронирования", async ({ request }) => {
+  test("Создание бронирования", { tag: "@api" }, async ({ request }) => {
     const response = await request.post(`${BASE_URL}/booking`, {
       data: BOOKING_DATA,
     });
@@ -38,14 +38,18 @@ test.describe.serial("API-тесты для Restful-booker", () => {
     expect(responseBody.booking).toEqual(BOOKING_DATA);
   });
 
-  test("Получение информации о бронировании", async ({ request }) => {
-    const response = await request.get(`${BASE_URL}/booking/${bookingId}`);
-    expect(response.status()).toBe(200);
-    const responseBody = await response.json();
-    expect(responseBody).toEqual(BOOKING_DATA);
-  });
+  test(
+    "Получение информации о бронировании",
+    { tag: "@api" },
+    async ({ request }) => {
+      const response = await request.get(`${BASE_URL}/booking/${bookingId}`);
+      expect(response.status()).toBe(200);
+      const responseBody = await response.json();
+      expect(responseBody).toEqual(BOOKING_DATA);
+    }
+  );
 
-  test("Обновление бронирования", async ({ request }) => {
+  test("Обновление бронирования", { tag: "@api" }, async ({ request }) => {
     const authResponse = await request.post(`${BASE_URL}/auth`, {
       data: { username: "admin", password: "password123" },
     });
@@ -64,7 +68,7 @@ test.describe.serial("API-тесты для Restful-booker", () => {
     expect(responseBody).toEqual(UPDATED_BOOKING_DATA);
   });
 
-  test("Удаление бронирования", async ({ request }) => {
+  test("Удаление бронирования", { tag: "@api" }, async ({ request }) => {
     const response = await request.delete(`${BASE_URL}/booking/${bookingId}`, {
       headers: {
         Cookie: `token=${authToken}`,

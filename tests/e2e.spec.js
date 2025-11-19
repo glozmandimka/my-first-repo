@@ -12,7 +12,7 @@ const STANDARD_USER_PASSWORD = "secret_sauce";
 const EXPECTED_PAGE_TITLE = "Products";
 const EXPECTED_SUCCESS_MESSAGE = "Thank you for your order!";
 
-test("Buying the most expensive item", async ({ page }) => {
+test("Buying the most expensive item", { tag: "@ui" }, async ({ page }) => {
   const user = UserFactory.createUser(
     STANDARD_USER_LOGIN,
     STANDARD_USER_PASSWORD
